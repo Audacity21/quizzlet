@@ -1,65 +1,95 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Quiz = ({ navigation }) => {
   const [quesno, setQuesno] = useState(0);
+  const [questions, setQuestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getQuestion = async () => {
+    setIsLoading(true);
+    const url =
+      "https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986";
+    const res = await fetch(url);
+    const data = await res.json();
+    setQuestions(data.results);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    getQuestion();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.question}>
-          Q. This is question number {quesno + 1}
-        </Text>
-      </View>
-      <View style={styles.body}>
-        <TouchableOpacity>
-          <Text style={styles.option}>A) Answer 1</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.option}>B) Answer 2</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.option}>C) Answer 3</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.option}>D) Answer 4</Text>
-        </TouchableOpacity>
-      </View>
-      {quesno !== 9 && (
+      {!isLoading && (
         <>
-          <View style={styles.footer1}>
-            <TouchableOpacity
-              style={styles.button1}
-              onPress={() => setQuesno(0)}
-            >
-              <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
-                SKIP
-              </Text>
+          <View style={styles.header}>
+            <Text style={styles.question}>
+              Q. {decodeURIComponent(questions[quesno].question)}
+            </Text>
+          </View>
+          <View style={styles.body}>
+            <TouchableOpacity>
+              <Text style={styles.option}>A) Answer 1</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button2}
-              onPress={() => setQuesno(quesno + 1)}
-            >
-              <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
-                NEXT
-              </Text>
+            <TouchableOpacity>
+              <Text style={styles.option}>B) Answer 2</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.option}>C) Answer 3</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.option}>D) Answer 4</Text>
             </TouchableOpacity>
           </View>
+          {quesno !== 9 && (
+            <>
+              <View style={styles.footer1}>
+                <TouchableOpacity
+                  style={styles.button1}
+                  onPress={() => console.log(questions[quesno].question)}
+                >
+                  <Text
+                    style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}
+                  >
+                    SKIP
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button2}
+                  onPress={() => setQuesno(quesno + 1)}
+                >
+                  <Text
+                    style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}
+                  >
+                    NEXT
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
+
+          {quesno === 9 && (
+            <>
+              <View style={styles.footer2}>
+                <TouchableOpacity
+                  style={styles.button3}
+                  onPress={() => navigation.navigate("Result")}
+                >
+                  <Text
+                    style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}
+                  >
+                    SUBMIT
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
         </>
       )}
-
-      {quesno === 9 && (
+      {isLoading && (
         <>
-          <View style={styles.footer2}>
-            <TouchableOpacity
-              style={styles.button3}
-              onPress={() => navigation.navigate("Result")}
-            >
-              <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
-                SUBMIT
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <Text>Loading...</Text>
         </>
       )}
     </View>
