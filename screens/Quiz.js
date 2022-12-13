@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 
-const Quiz = () => {
+const Quiz = ({ navigation }) => {
   const [quesno, setQuesno] = useState(0);
 
   return (
@@ -53,7 +53,7 @@ const Quiz = () => {
           <View style={styles.footer2}>
             <TouchableOpacity
               style={styles.button3}
-              onPress={() => setQuesno(0)}
+              onPress={() => navigation.navigate("Result")}
             >
               <Text style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}>
                 SUBMIT
@@ -74,6 +74,8 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     justifyContent: "space-evenly",
+    backgroundColor: "#662E9B",
+    padding: 40,
   },
   question: {
     textAlign: "left",

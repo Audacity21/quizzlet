@@ -1,16 +1,12 @@
-import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View } from "react-native";
-import Home from "./screens/Home";
-import Quiz from "./screens/Quiz";
-import Result from "./screens/Result";
+import { StyleSheet, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import MyStack from "./navigation";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Home />
-      {/* <Quiz /> */}
-      {/* <Result /> */}
-    </View>
+    <NavigationContainer style={styles.nav}>
+      <MyStack />
+    </NavigationContainer>
   );
 }
 

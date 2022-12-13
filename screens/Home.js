@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -20,7 +20,10 @@ const Home = () => {
         }}
       >
         <TouchableOpacity style={styles.button}>
-          <Text style={{ color: "#fff", fontSize: 24, fontWeight: "600" }}>
+          <Text
+            style={{ color: "#fff", fontSize: 24, fontWeight: "600" }}
+            onPress={() => navigation.navigate("Quiz")}
+          >
             PLAY
           </Text>
         </TouchableOpacity>
@@ -38,6 +41,8 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-evenly",
     alignItems: "center",
+    backgroundColor: "#662E9B",
+    padding: 40,
   },
   header: {
     flexDirection: "column",

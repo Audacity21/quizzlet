@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { LinearGradient } from "react-native-linear-gradient";
 import React from "react";
 
-const Result = () => {
+const Result = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -13,15 +12,18 @@ const Result = () => {
         </Text>
       </View>
       {/* Body */}
-      <View color={["#4c669f", "#3b5998", "#192f6a"]} style={styles.body}>
+      <View style={styles.body}>
         <View style={styles.circle}>
           <Text style={{ fontSize: 60, fontWeight: "600" }}>10</Text>
         </View>
       </View>
       {/* Footer */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={{ color: "#fff" }}>TRY AGAIN</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Text style={{ color: "#fff", fontSize: 18 }}>TRY AGAIN</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -36,6 +38,8 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     justifyContent: "space-evenly",
+    backgroundColor: "#662E9B",
+    padding: 40,
   },
   body: {
     backgroundColor: "#b134eb",
