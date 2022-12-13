@@ -8,8 +8,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       {/* <Quiz /> */}
-      <Home />
-      {/* <Result /> */}
+      {/*  <Home /> */}
+      <Result />
     </View>
   );
 }
