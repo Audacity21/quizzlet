@@ -5,6 +5,15 @@ const Quiz = ({ navigation }) => {
   const [quesno, setQuesno] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [options, setOptions] = useState([]);
+  const [score, setScore] = useState(0);
+
+  const shufflearray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  };
 
   const getQuestion = async () => {
     setIsLoading(true);
@@ -13,8 +22,33 @@ const Quiz = ({ navigation }) => {
     const res = await fetch(url);
     const data = await res.json();
     setQuestions(data.results);
+    genetateOptions(data.results[0]);
     setIsLoading(false);
   };
+
+  const handleOptions = (option) => {
+    if (option === questions[quesno].correct_answer) {
+      setScore(score + 1);
+    }
+    console.log(score);
+    if (quesno !== 9) handlenext();
+  };
+
+  const handlenext = () => {
+    setQuesno(quesno + 1);
+    genetateOptions(questions[quesno + 1]);
+  };
+
+  const genetateOptions = (question) => {
+    const options = [];
+    options.push(question.correct_answer);
+    question.incorrect_answers.forEach((option) => {
+      options.push(option);
+    });
+    shufflearray(options);
+    setOptions(options);
+  };
+
   useEffect(() => {
     getQuestion();
   }, []);
@@ -29,17 +63,25 @@ const Quiz = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.body}>
-            <TouchableOpacity>
-              <Text style={styles.option}>A) Answer 1</Text>
+            <TouchableOpacity onPress={() => handleOptions(options[0])}>
+              <Text style={styles.option}>
+                A) {decodeURIComponent(options[0])}
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.option}>B) Answer 2</Text>
+            <TouchableOpacity onPress={() => handleOptions(options[1])}>
+              <Text style={styles.option}>
+                B) {decodeURIComponent(options[1])}
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.option}>C) Answer 3</Text>
+            <TouchableOpacity onPress={() => handleOptions(options[2])}>
+              <Text style={styles.option}>
+                C) {decodeURIComponent(options[2])}
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.option}>D) Answer 4</Text>
+            <TouchableOpacity onPress={() => handleOptions(options[3])}>
+              <Text style={styles.option}>
+                D) {decodeURIComponent(options[3])}
+              </Text>
             </TouchableOpacity>
           </View>
           {quesno !== 9 && (
@@ -55,10 +97,7 @@ const Quiz = ({ navigation }) => {
                     SKIP
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button2}
-                  onPress={() => setQuesno(quesno + 1)}
-                >
+                <TouchableOpacity style={styles.button2} onPress={handlenext}>
                   <Text
                     style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}
                   >
