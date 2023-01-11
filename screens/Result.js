@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 
-const Result = ({ navigation }) => {
+const Result = ({ navigation, route }) => {
+  const { score } = route.params;
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -14,7 +16,7 @@ const Result = ({ navigation }) => {
       {/* Body */}
       <View style={styles.body}>
         <View style={styles.circle}>
-          <Text style={{ fontSize: 60, fontWeight: "600" }}>10</Text>
+          <Text style={{ fontSize: 60, fontWeight: "600" }}>{score}</Text>
         </View>
       </View>
       {/* Footer */}

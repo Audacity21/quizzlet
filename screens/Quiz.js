@@ -30,13 +30,17 @@ const Quiz = ({ navigation }) => {
     if (option === questions[quesno].correct_answer) {
       setScore(score + 1);
     }
-    console.log(score);
     if (quesno !== 9) handlenext();
+    else handleSubmit();
   };
 
   const handlenext = () => {
     setQuesno(quesno + 1);
     genetateOptions(questions[quesno + 1]);
+  };
+
+  const handleSubmit = () => {
+    navigation.navigate("Result", { score: score });
   };
 
   const genetateOptions = (question) => {
@@ -87,10 +91,7 @@ const Quiz = ({ navigation }) => {
           {quesno !== 9 && (
             <>
               <View style={styles.footer1}>
-                <TouchableOpacity
-                  style={styles.button1}
-                  onPress={() => console.log(questions[quesno].question)}
-                >
+                <TouchableOpacity style={styles.button1} onPress={handlenext}>
                   <Text
                     style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}
                   >
@@ -111,10 +112,7 @@ const Quiz = ({ navigation }) => {
           {quesno === 9 && (
             <>
               <View style={styles.footer2}>
-                <TouchableOpacity
-                  style={styles.button3}
-                  onPress={() => navigation.navigate("Result")}
-                >
+                <TouchableOpacity style={styles.button3} onPress={handleSubmit}>
                   <Text
                     style={{ color: "#fff", fontSize: 20, fontWeight: "600" }}
                   >
